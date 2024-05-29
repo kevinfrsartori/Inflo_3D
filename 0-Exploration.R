@@ -94,3 +94,27 @@ img_animated
 ## save to disk
 image_write(image = img_animated,
             path = "inflo2.gif")
+
+
+# Surfaces
+
+library(plot3D)
+M <- mesh(seq(0, 6*pi, length.out = 50),seq(pi/3, pi, length.out = 50))
+u <- M$x ; v <- M$y
+x <- v * cos(u)
+y <- v * sin(u)
+z <- 10 * u
+surf3D(x, y, z, colvar = z, colkey = TRUE, 
+       box = TRUE, bty = "b", phi = 20, theta = 120)
+
+
+# petal
+
+plot(-2:2,-2:2)
+petal<-matrix(data = c(c(1,3,4,3,0,-3,-4,-3,-1),c(3,5,9,11,12,11,9,5,3)-1),ncol = 2,byrow = F)/12
+petal2<-matrix(data = c(c(3,5,9,11,12,11,9,5,3)-1,-c(1,3,4,3,0,-3,-4,-3,-1)),ncol = 2,byrow = F)/12
+
+polygon(petal)
+polygon(-petal)
+polygon(petal2)
+polygon(-petal2)
