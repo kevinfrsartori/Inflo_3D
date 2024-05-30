@@ -123,7 +123,7 @@ points3D(0,0,0,add=T)
 par(bg = "#f7f7f7",fg="black")
 scatter3D(xs, ys, zs, pch = 21, cex = .5,colkey = F,phi = 10, theta = 45,bty="u",
           col.axis = "black",col.panel = "#f7f7f7",col.grid = "#f7f7f7")
-points3D(0,0,0,add=T,pch=21,bg="white",cex=4)
+points3D(0,0,0,add=T,pch=21,bg="lightgreen",cex=4)
 petal<-matrix(data = c(c(1,3,4,3,0,-3,-4,-3,-1),c(0,0,0,0,0,0,0,0,0),c(2,4,8,10,11,10,8,4,2)),ncol = 3,byrow = F)/12
 
 #polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
