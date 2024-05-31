@@ -11,6 +11,9 @@
 library(plot3D)
 library(magick)
 
+# 1 - Make stem and petioles
+########################
+
 # parameters
 D=2 # density of the top inflorescence
 K=2 # shape of the top
@@ -81,24 +84,20 @@ for (i in 1:90) {
 ## list file names and read in
 imgs <- list.files(path = "../large_files/Inflo_3D/inflo2/", full.names = TRUE)
 img_list <- lapply(imgs, image_read)
-
 ## join the images together
 img_joined <- image_join(img_list)
-
 ## animate at 2 frames per second
 img_animated <- image_animate(img_joined, fps = 20)
-
 ## view animated image
 img_animated
-
 ## save to disk
 image_write(image = img_animated,
             path = "inflo2.gif")
 
-
+# 2 - Draw petal
+################
 
 # petal2d
-
 plot(-2:2,-2:2)
 petal<-matrix(data = c(c(1,3,4,3,0,-3,-4,-3,-1),c(3,5,9,11,12,11,9,5,3)-1),ncol = 2,byrow = F)/12
 petal2<-matrix(data = c(c(3,5,9,11,12,11,9,5,3)-1,-c(1,3,4,3,0,-3,-4,-3,-1)),ncol = 2,byrow = F)/12
@@ -113,42 +112,67 @@ xs<-c(-2,-2,2,2)
 ys<-c(-2,2,-2,2)
 zs<-c(-2,-2,2,2)
 par(bg = "#f7f7f7",fg="black")
-scatter3D(xs, ys, zs, pch = 21, cex = .5,colkey = F,phi = 10, theta = 45,bty="u",col.axis = "black",
-          col.panel = "#f7f7f7",
-          col.grid = "#f7f7f7")
-polygon3D(x = c(1,3,4,3,0,-3,-4,-3,-1)/12,z = c(2,4,8,10,11,10,8,4,2)/12, y = c(0,0,0,0,0,0,0,0,0),add=T,col = "white",border = "black")
-points3D(0,0,0,add=T)
 
-# rotations and duplication
-par(bg = "#f7f7f7",fg="black")
-scatter3D(xs, ys, zs, pch = 21, cex = .5,colkey = F,phi = 10, theta = 45,bty="u",
+for (i in 1:179) {
+  # prepare png
+  png(filename = paste0("img/petals_",sprintf("%03d", 1:179)[i],".png"),width = 600,height = 600)
+  # scene
+  #scatter3D(xs, ys, zs, pch = 21, cex = .5,colkey = F,phi = 10, theta = 45,bty="u",col.axis = "black",
+  #        col.panel = "#f7f7f7",
+  #        col.grid = "#f7f7f7")
+  #polygon3D(x = c(1,3,4,3,0,-3,-4,-3,-1)/12,z = c(2,4,8,10,11,10,8,4,2)/12, y = c(0,0,0,0,0,0,0,0,0),add=T,col = "white",border = "black")
+  #points3D(0,0,0,add=T)
+
+  #scene
+  par(bg = "#f7f7f7",fg="black")
+  scatter3D(xs, ys, zs, pch = 21, cex = .5,colkey = F,phi = 10, theta = i,bty="u",
           col.axis = "black",col.panel = "#f7f7f7",col.grid = "#f7f7f7")
-points3D(0,0,0,add=T,pch=21,bg="lightgreen",cex=4)
-petal<-matrix(data = c(c(1,3,4,3,0,-3,-4,-3,-1),c(0,0,0,0,0,0,0,0,0),c(2,4,8,10,11,10,8,4,2)),ncol = 3,byrow = F)/12
+  points3D(0,0,0,add=T,pch=21,bg="lightgreen",cex=4)
+  
+  #petal coordinates
+  petal<-matrix(data = c(c(1,3,4,3,0,-3,-4,-3,-1),c(0,0,0,0,0,0,0,0,0),c(2,4,8,10,11,10,8,4,2)),ncol = 3,byrow = F)/12
+  #polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
+  
+  #zrotation
+  angle=pi/2
+  petal2<-petal
+  petal2[,1]<-petal[,1]*cos(angle)-petal[,2]*sin(angle)+petal[,3]*0
+  petal2[,2]<-petal[,1]*sin(angle)+petal[,2]*cos(angle)+petal[,3]*0
+  petal2[,3]<-petal[,1]*0+petal[,2]*0+petal[,3]*1
+  
+  polygon3D(x = petal2[,1], y = petal2[,2], z = petal2[,3],add=T,col = "white",border = "black")
 
-#polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
 
-#zrotation
-angle=pi/2
-petal2<-petal
-petal2[,1]<-petal[,1]*cos(angle)-petal[,2]*sin(angle)+petal[,3]*0
-petal2[,2]<-petal[,1]*sin(angle)+petal[,2]*cos(angle)+petal[,3]*0
-petal2[,3]<-petal[,1]*0+petal[,2]*0+petal[,3]*1
+  for (i in (1:4)*pi/2) {
+    angle=i
+    petal3<-petal2
+    petal3[,1]<-petal2[,1]*1+petal2[,2]*0+petal2[,3]*0
+    petal3[,2]<-petal2[,1]*0+petal2[,2]*cos(angle)-petal2[,3]*sin(angle)
+    petal3[,3]<-petal2[,1]*0+petal2[,2]*sin(angle)+petal2[,3]*cos(angle)
 
-polygon3D(x = petal2[,1], y = petal2[,2], z = petal2[,3],add=T,col = "white",border = "black")
-
-
-for (i in (1:4)*pi/2) {
-angle=i
-petal3<-petal2
-petal3[,1]<-petal2[,1]*1+petal2[,2]*0+petal2[,3]*0
-petal3[,2]<-petal2[,1]*0+petal2[,2]*cos(angle)-petal2[,3]*sin(angle)
-petal3[,3]<-petal2[,1]*0+petal2[,2]*sin(angle)+petal2[,3]*cos(angle)
-
-polygon3D(x = petal3[,1], y = petal3[,2], z = petal3[,3],add=T,col = "white",border = "black")
+    polygon3D(x = petal3[,1], y = petal3[,2], z = petal3[,3],add=T,col = "white",border = "black")
+  }
+  # save png
+  dev.off()
 }
 
-# find how to do simply with matrices
+## list file names and read in
+imgs <- grep(pattern = ".png",x = list.files(path = "img/", full.names = TRUE),value = T)
+img_list <- lapply(imgs, image_read)
+## join the images together
+img_joined <- image_join(img_list)
+## animate at 2 frames per second
+img_animated <- image_animate(img_joined, fps = 20)
+## save to disk
+image_write(image = img_animated,
+            path = "flower3d.gif")
+# remove images 
+file.remove(list.files("img/",full.names = T))
+
+
+
+# TODO
+# Find how to do simply with matrices
 zrotation<-matrix( data = c( c( cos(angle),-sin(angle), 0),
                              c( sin(angle), cos(angle), 0),
                              c( 0         , 0         , 1)), nrow = 3, byrow = T)
