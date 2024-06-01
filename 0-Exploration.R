@@ -173,11 +173,85 @@ file.remove(list.files("img/",full.names = T))
 
 # TODO
 # Find how to do simply with matrices
-zrotation<-matrix( data = c( c( cos(angle),-sin(angle), 0),
-                             c( sin(angle), cos(angle), 0),
-                             c( 0         , 0         , 1)), nrow = 3, byrow = T)
+xrotation<-function(x,angle){
+  y<-x
+  y[,1]<-x[,1]*1+x[,2]*0+x[,3]*0
+  y[,2]<-x[,1]*0+x[,2]*cos(angle)-x[,3]*sin(angle)
+  y[,3]<-x[,1]*0+x[,2]*sin(angle)+x[,3]*cos(angle)
+  return(y)
+}
 
-petal4<-(petal %*% t(zrotation))
-polygon3D(x = petal4[,1], y = petal4[,2], z = petal4[,3],add=T,col = "red",border = "black")
-# so far not good
+yrotation<-function(x,angle){
+  y<-x
+  y[,1]<-x[,1]*cos(angle)+x[,2]*0+x[,3]*sin(angle)
+  y[,2]<-x[,1]*0+x[,2]*1+x[,3]*0
+  y[,3]<--x[,1]*sin(angle)+x[,2]*0+x[,3]*cos(angle)
+  return(y)
+}
 
+zrotation<-function(x,angle){
+  y<-x
+  y[,1]<-x[,1]*cos(angle)-x[,2]*sin(angle)+x[,3]*0
+  y[,2]<-x[,1]*sin(angle)+x[,2]*cos(angle)+x[,3]*0
+  y[,3]<-x[,1]*0+x[,2]*0+x[,3]*1
+  return(y)
+}
+
+
+par(bg = "#f7f7f7",fg="black")
+scatter3D(xs, ys, zs, pch = 21, cex = .5,colkey = F,phi = 10, theta = 45,bty="u",
+          col.axis = "black",col.panel = "#f7f7f7",col.grid = "#f7f7f7")
+
+petal<-matrix(data = c(c(1,3,4,3,0,-3,-4,-3,-1),c(3,0,0,0,0,0,0,0,3),c(2,4,8,10,11,10,8,4,2)),ncol = 3,byrow = F)/12
+
+polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
+
+petal<-yrotation(petal,pi/2)
+
+polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
+
+petal<-yrotation(petal,pi/2)
+
+polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
+
+petal<-yrotation(petal,pi/2)
+
+polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
+
+
+petal1<-yrotation(petal,pi/2)
+petal2<-yrotation(petal1,pi/2)
+petal3<-yrotation(petal2,pi/2)
+petal4<-yrotation(petal3,pi/2)
+
+petals<-rbind(petal1,petal4,petal3,petal2)
+
+polygon3D(x = petals[,1], y = petals[,2], z = petals[,3],add=T,col = "white",border = "black")
+
+
+for (i in 1:359) {
+  # prepare png
+  png(filename = paste0("img/petals_",sprintf("%03d", 1:359)[i],".png"),width = 600,height = 600)
+  # scene
+  par(bg = "#f7f7f7",fg="black")
+  scatter3D(xs, ys, zs, pch = 21, cex = .5,colkey = F,phi = 10, theta = i,bty="u",
+            col.axis = "black",col.panel = "#f7f7f7",col.grid = "#f7f7f7")
+  # petals
+  polygon3D(x = petals[,1], y = petals[,2], z = petals[,3],add=T,col = "white",border = "black")
+  # dot
+  points3D(0,0,0,add=T,pch=21,bg="lightgreen",cex=3)
+  # save png
+  dev.off()
+}
+## list file names and read in
+imgs <- grep(pattern = ".png",x = list.files(path = "img/", full.names = TRUE),value = T)
+img_list <- lapply(imgs, image_read)
+## join the images together
+img_joined <- image_join(img_list)
+## animate at 2 frames per second
+img_animated <- image_animate(img_joined, fps = 20)
+## save to disk
+image_write(image = img_animated,
+            path = "flower3d.gif")
+# remove images 
+file.remove(list.files("img/",full.names = T))
