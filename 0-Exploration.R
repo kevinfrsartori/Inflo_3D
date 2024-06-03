@@ -202,7 +202,7 @@ par(bg = "#f7f7f7",fg="black")
 scatter3D(xs, ys, zs, pch = 21, cex = .5,colkey = F,phi = 10, theta = 45,bty="u",
           col.axis = "black",col.panel = "#f7f7f7",col.grid = "#f7f7f7")
 
-petal<-matrix(data = c(c(1,3,4,3,0,-3,-4,-3,-1),c(3,0,0,0,0,0,0,0,3),c(2,4,6,8,9,8,6,4,2)),ncol = 3,byrow = F)/12
+petal<-matrix(data = c(c(5,6,6,5,3,-3,-5,-6,-6,-5),c(0,0,0,0,0,0,0,0,0,0),c(5,6,9,11,13,13,11,9,6,5)),ncol = 3,byrow = F)/12
 
 polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
 
@@ -289,3 +289,31 @@ file.remove(list.files("img/",full.names = T))
 
 petals<-xrotation(petals,pi/5)
 polygon3D(x = petals[,1], y = petals[,2], z = petals[,3],add=T,col = "white",border = "black")
+
+
+
+# petal 3d
+xs<-c(-2,-2,2,2)
+ys<-c(-2,2,-2,2)
+zs<-c(-2,-2,2,2)
+par(bg = "#f7f7f7",fg="black")
+scatter3D(xs, ys, zs, pch = 21, cex = .5,colkey = F,phi = 10, theta = 45,bty="u",
+          col.axis = "black",col.panel = "#f7f7f7",col.grid = "#f7f7f7")
+
+petal<-matrix(data = c(c(5,6,6,5,3,-3,-5,-6,-6,-5),c(0,0,0,0,0,0,0,0,0,0),c(5,6,9,11,13,13,11,9,6,5)),ncol = 3,byrow = F)/12
+
+polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
+
+petal<-yrotation(petal,pi/2)
+
+polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
+
+petal<-yrotation(petal,pi/2)
+
+polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
+
+petal<-yrotation(petal,pi/2)
+
+polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
+
+
