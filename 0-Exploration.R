@@ -293,27 +293,93 @@ polygon3D(x = petals[,1], y = petals[,2], z = petals[,3],add=T,col = "white",bor
 
 
 # petal 3d
+
+library(plot3D)
+library(magick)
+
 xs<-c(-2,-2,2,2)
 ys<-c(-2,2,-2,2)
 zs<-c(-2,-2,2,2)
+i=165
 par(bg = "#f7f7f7",fg="black")
-scatter3D(xs, ys, zs, pch = 21, cex = .5,colkey = F,phi = 10, theta = 45,bty="u",
+scatter3D(xs, ys, zs, pch = 21, cex = .5,colkey = F,phi = 10, theta = i,bty="u",
           col.axis = "black",col.panel = "#f7f7f7",col.grid = "#f7f7f7")
 
-petal<-matrix(data = c(c(5,6,6,5,3,-3,-5,-6,-6,-5),c(0,0,0,0,0,0,0,0,0,0),c(5,6,9,11,13,13,11,9,6,5)),ncol = 3,byrow = F)/12
-
+# petals
+petal<-matrix(data = c(c(4,5,5,4,2,0,-2,-4,-5,-5,-4),c(0,0,0,0,0,0,0,0,0,0,0),c(5,6,9,11,13,13.5,13,11,9,6,5)),ncol = 3,byrow = F)/6
 polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
-
 petal<-yrotation(petal,pi/2)
-
 polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
-
 petal<-yrotation(petal,pi/2)
-
 polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
-
 petal<-yrotation(petal,pi/2)
-
 polygon3D(x = petal[,1], y = petal[,2], z = petal[,3],add=T,col = "white",border = "black")
 
+# basepetal
+basepetal<-matrix(data = c(c(-4,4,0),c(0,0,-10),c(5,5,1)),ncol = 3,byrow = F)/6
+polygon3D(x = basepetal[,1], y = basepetal[,2], z = basepetal[,3],add=T,col = "grey90",border = "black")
+basepetal<-yrotation(basepetal,pi/2)
+polygon3D(x = basepetal[,1], y = basepetal[,2], z = basepetal[,3],add=T,col = "grey90",border = "black")
+basepetal<-yrotation(basepetal,pi/2)
+polygon3D(x = basepetal[,1], y = basepetal[,2], z = basepetal[,3],add=T,col = "grey90",border = "black")
+basepetal<-yrotation(basepetal,pi/2)
+polygon3D(x = basepetal[,1], y = basepetal[,2], z = basepetal[,3],add=T,col = "grey90",border = "black")
 
+# sepal bas
+sepalbas<-matrix(data = c(c(1,5,2,0),c(-10,-7,-7,-10),c(0,2,5,1)),ncol = 3,byrow = F)/6
+polygon3D(x = sepalbas[,1], y = sepalbas[,2], z = sepalbas[,3],add=T,col = "darkgreen",border = "black")
+sepalbas<-yrotation(sepalbas,pi/2)
+polygon3D(x = sepalbas[,1], y = sepalbas[,2], z = sepalbas[,3],add=T,col = "darkgreen",border = "black")
+sepalbas<-yrotation(sepalbas,pi/2)
+polygon3D(x = sepalbas[,1], y = sepalbas[,2], z = sepalbas[,3],add=T,col = "darkgreen",border = "black")
+sepalbas<-yrotation(sepalbas,pi/2)
+polygon3D(x = sepalbas[,1], y = sepalbas[,2], z = sepalbas[,3],add=T,col = "darkgreen",border = "black")
+# sepal haut
+sepalhaut<-matrix(data = c(c(5,5,2),c(-7,2,-7),c(2,5,5)),ncol = 3,byrow = F)/6
+polygon3D(x = sepalhaut[,1], y = sepalhaut[,2], z = sepalhaut[,3],add=T,col = "darkgreen",border = "black")
+sepalhaut<-yrotation(sepalhaut,pi/2)
+polygon3D(x = sepalhaut[,1], y = sepalhaut[,2], z = sepalhaut[,3],add=T,col = "darkgreen",border = "black")
+sepalhaut<-yrotation(sepalhaut,pi/2)
+polygon3D(x = sepalhaut[,1], y = sepalhaut[,2], z = sepalhaut[,3],add=T,col = "darkgreen",border = "black")
+sepalhaut<-yrotation(sepalhaut,pi/2)
+polygon3D(x = sepalhaut[,1], y = sepalhaut[,2], z = sepalhaut[,3],add=T,col = "darkgreen",border = "black")
+
+# gynecee TODO
+gyn<-matrix(data = c(c(1,1,-1,-1),c(0,0,0,0),c(1,-1,-1,1)),ncol = 3,byrow = F)/6
+#rotate elements from origin
+gyn1<-yrotation(gyn,pi/4)
+gyn2<-xrotation(gyn1,pi/2)
+gyn3<-yrotation(gyn2,pi/2)
+polygon3D(x = gyn1[,1], y = gyn1[,2], z = gyn1[,3],add=T,col = "lightgreen",border = "black")
+polygon3D(x = gyn2[,1], y = gyn2[,2], z = gyn2[,3],add=T,col = "lightgreen",border = "black")
+polygon3D(x = gyn3[,1], y = gyn3[,2], z = gyn3[,3],add=T,col = "lightgreen",border = "black")
+
+# Stamen
+Stamen<-matrix(data = c(c(1,1,-1,-1),c(0,0,0,0),c(1,-1,-1,1)),ncol = 3,byrow = F)/6
+#rotate elements from origin
+Stamen1<-yrotation(Stamen,pi/4)
+Stamen2<-xrotation(Stamen1,pi/2)
+Stamen3<-yrotation(Stamen2,pi/2)
+#move to first location
+Stamen1[,1]<-Stamen1[,1]+(3.5/6)
+Stamen2[,1]<-Stamen2[,1]+(3.5/6)
+Stamen3[,1]<-Stamen3[,1]+(3.5/6)
+#rotate to the corner
+Stamen1<-yrotation(Stamen1,pi/4)
+Stamen2<-yrotation(Stamen2,pi/4)
+Stamen3<-yrotation(Stamen3,pi/4)
+#print
+polygon3D(x = Stamen1[,1], y = Stamen1[,2], z = Stamen1[,3],add=T,col = "yellow",border = "black")
+polygon3D(x = Stamen2[,1], y = Stamen2[,2], z = Stamen2[,3],add=T,col = "yellow",border = "black")
+polygon3D(x = Stamen3[,1], y = Stamen3[,2], z = Stamen3[,3],add=T,col = "yellow",border = "black")
+# rotate around y 4 times
+for (j in 1:5) {
+Stamen1<-yrotation(Stamen1,2*pi/6)
+Stamen2<-yrotation(Stamen2,2*pi/6)
+Stamen3<-yrotation(Stamen3,2*pi/6)
+polygon3D(x = Stamen1[,1], y = Stamen1[,2], z = Stamen1[,3],add=T,col = "yellow",border = "black")
+polygon3D(x = Stamen2[,1], y = Stamen2[,2], z = Stamen2[,3],add=T,col = "yellow",border = "black")
+polygon3D(x = Stamen3[,1], y = Stamen3[,2], z = Stamen3[,3],add=T,col = "yellow",border = "black")
+}
+
+i=i+5
